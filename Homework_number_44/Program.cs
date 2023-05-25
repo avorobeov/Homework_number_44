@@ -15,12 +15,12 @@ namespace Homework_number_44
 
     public class Wagon
     {
-        public int Capacity { get; private set; }
-
         public Wagon(int capacity)
         {
             Capacity = capacity;
         }
+
+        public int Capacity { get; private set; }
     }
 
     class Train
@@ -56,7 +56,7 @@ namespace Homework_number_44
 
             FormWagon(GetNumberTicketsSold());
 
-            IsReadyForDeparture = true;
+            _isReadyForDeparture = true;
         }
 
         public void ShowInfo()
