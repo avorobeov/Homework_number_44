@@ -10,6 +10,48 @@ namespace Homework_number_44
     {
         static void Main(string[] args)
         {
+            const string CommandPrepareTrainDispatch = "1";
+            const string CommandSendTrain = "2";
+            const string CommandExit = "3";
+
+            Station station = new Station();
+
+            bool isExit = false;
+            string userInput;
+
+            while (isExit == false)
+            {
+                station.ShowInfo();
+
+                Console.WriteLine($"\n\nДля того что бы подготовить поезд к отправке нажмите: {CommandPrepareTrainDispatch}\n" +
+                                  $"Для  того что бы отправить поезда нажмите:{CommandSendTrain}\n" +
+                                  $"Для того что бы выйти нажмите: {CommandExit}\n");
+
+                userInput = Console.ReadLine();
+
+                switch (userInput)
+                {
+                    case CommandPrepareTrainDispatch:
+                        station.PrepareTrainDispatch();
+                        break;
+
+                    case CommandSendTrain:
+                        station.SendTrain();
+                        break;
+
+                    case CommandExit:
+                        isExit = true;
+                        break;
+
+                    default:
+                        Console.WriteLine("Такой комады нет в списке команд!");
+                        break;
+                }
+
+                Console.WriteLine("Для продолжения ведите любую клавишу...");
+                Console.ReadKey();
+                Console.Clear();
+            }
         }
     }
 
@@ -54,7 +96,9 @@ namespace Homework_number_44
         {
             CreateDestination();
 
-            FormWagon(GetNumberTicketsSold());
+            _numberTicketsSold = GetNumberTicketsSold();
+
+            FormWagon(_numberTicketsSold);
 
             _isReadyForDeparture = true;
         }
@@ -84,6 +128,9 @@ namespace Homework_number_44
                 _train = new Train();
 
                 _isReadyForDeparture = false;
+                _numberTicketsSold = 0;
+
+                ShowMessage("Поезд успешно отправлен!", ConsoleColor.Magenta);
             }
             else
             {
@@ -107,7 +154,7 @@ namespace Homework_number_44
             Random random = new Random();
 
             int minNumberTicketsSold = 10;
-            int MaxNumberTicketsSold = 100;
+            int MaxNumberTicketsSold = 250;
 
             return random.Next(minNumberTicketsSold, MaxNumberTicketsSold);
         }
