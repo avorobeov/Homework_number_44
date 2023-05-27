@@ -152,25 +152,25 @@ namespace Homework_number_44
             Random random = new Random();
 
             int minNumberTicketsSold = 10;
-            int MaxNumberTicketsSold = 250;
+            int maxNumberTicketsSold = 250;
 
-            return random.Next(minNumberTicketsSold, MaxNumberTicketsSold);
+            return random.Next(minNumberTicketsSold, maxNumberTicketsSold);
         }
 
         private void FormWagon(int passengerCount)
         {
             const int minWagonCapacity = 10;
-            const int maxWagonCapacity = 30;
+            const int defaultWagonCapacity = 30;
 
-            int numberWagon = (int)Math.Ceiling((double)passengerCount / maxWagonCapacity);
+            int numberWagon = (int)Math.Ceiling((double)passengerCount / defaultWagonCapacity);
 
             for (int i = 0; i < numberWagon; i++)
             {
                 if (passengerCount > minWagonCapacity)
                 {
-                    _train.AddWagons(new Wagon(maxWagonCapacity));
+                    _train.AddWagons(new Wagon(defaultWagonCapacity));
 
-                    passengerCount -= maxWagonCapacity;
+                    passengerCount -= defaultWagonCapacity;
                 }
                 else
                 {
