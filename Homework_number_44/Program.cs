@@ -77,9 +77,9 @@ namespace Homework_number_44
             EndCity = endCity;
         }
 
-        public void AddWagons(List<Wagon> wagons)
+        public void AddWagons(Wagon wagon)
         {
-            _wagons = wagons;
+            _wagons.Add(wagon);
         }
     }
 
@@ -159,17 +159,24 @@ namespace Homework_number_44
 
         private void FormWagon(int passengerCount)
         {
-            List<Wagon> wagons = new List<Wagon>();
+            const int minWagonCapacity = 10;
+            const int maxWagonCapacity = 30;
 
-            int wagonCapacity = 30;
-            int numberWagon = (int)Math.Ceiling((double)passengerCount / wagonCapacity);
+            int numberWagon = (int)Math.Ceiling((double)passengerCount / maxWagonCapacity);
 
             for (int i = 0; i < numberWagon; i++)
             {
-                wagons.Add(new Wagon(wagonCapacity));
-            }
+                if (passengerCount > minWagonCapacity)
+                {
+                    _train.AddWagons(new Wagon(maxWagonCapacity));
 
-            _train.AddWagons(wagons);
+                    passengerCount -= maxWagonCapacity;
+                }
+                else
+                {
+                    _train.AddWagons(new Wagon(minWagonCapacity));
+                }
+            }
         }
 
         private void ShowMessage(string text, ConsoleColor consoleColor = ConsoleColor.Blue)
