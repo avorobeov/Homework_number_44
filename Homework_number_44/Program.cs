@@ -159,14 +159,14 @@ namespace Homework_number_44
 
         private void FormWagon(int passengerCount)
         {
-            const int minWagonCapacity = 10;
+            const int littleWagonCapacity = 10;
             const int defaultWagonCapacity = 30;
 
             int numberWagon = (int)Math.Ceiling((double)passengerCount / defaultWagonCapacity);
 
             for (int i = 0; i < numberWagon; i++)
             {
-                if (passengerCount > minWagonCapacity)
+                if (passengerCount > littleWagonCapacity)
                 {
                     _train.AddWagons(new Wagon(defaultWagonCapacity));
 
@@ -174,7 +174,7 @@ namespace Homework_number_44
                 }
                 else
                 {
-                    _train.AddWagons(new Wagon(minWagonCapacity));
+                    _train.AddWagons(new Wagon(littleWagonCapacity));
                 }
             }
         }
