@@ -67,6 +67,8 @@ namespace Homework_number_44
 
     class Station
     {
+        private Train _train;
+
         private bool _isReadyForDeparture;
         private int _numberTicketsSold;
         private int _numberWagon;
@@ -82,6 +84,8 @@ namespace Homework_number_44
             _numberWagon = GetQuantityWagons(_numberTicketsSold);
 
             _isReadyForDeparture = true;
+
+            _train = new Train(_startCity, _endCity, _numberWagon);
         }
 
         public void ShowInfo()
@@ -106,15 +110,13 @@ namespace Homework_number_44
         {
             if (_isReadyForDeparture == true)
             {
-                Train train = new Train(_startCity,_endCity,_numberWagon);
-
                 _isReadyForDeparture = false;
                 _numberTicketsSold = 0;
                 _numberWagon = 0;
                 _startCity = "";
                 _endCity = "";
 
-                train = null;
+                _train = null;
 
                 ShowMessage("Поезд успешно отправлен!", ConsoleColor.Magenta);
             }
