@@ -53,42 +53,27 @@ namespace Homework_number_44
         }
     }
 
-    public class Wagon
-    {
-        public Wagon(int capacity)
-        {
-            Capacity = capacity;
-        }
-
-        public int Capacity { get; private set; }
-    }
-
     class Train
     {
-        private List<Wagon> _wagons = new List<Wagon>();
-
-        public int NumberWagons => _wagons.Count();
-        public string StartCity { get; private set; }
-        public string EndCity { get; private set; }
-
-        public void SetDestination(string startCity, string endCity)
+        public Train(string startCity, string endCity, int numberWagons)
         {
             StartCity = startCity;
             EndCity = endCity;
+            NumberWagons = numberWagons;
         }
 
-        public void AddWagons(Wagon wagon)
-        {
-            _wagons.Add(wagon);
-        }
+        public int NumberWagons { get; private set; }
+        public string StartCity { get; private set; }
+        public string EndCity { get; private set; }
     }
 
     class Station
     {
-        private Train _train = new Train();
-
-        private int _numberTicketsSold;
         private bool _isReadyForDeparture;
+        private int _numberTicketsSold;
+        private int _numberWagon;
+        private string _startCity;
+        private string _endCity;
 
         public void PrepareTrainDispatch()
         {
@@ -104,9 +89,9 @@ namespace Homework_number_44
         public void ShowInfo()
         {
             ShowMessage($"Досье\n" +
-                        $"Место отправки поезда: {_train.StartCity}\n" +
-                        $"Место прибытия поезда: {_train.EndCity}\n" +
-                        $"Количество вагонов в поезде:{_train.NumberWagons}\n" +
+                        $"Место отправки поезда: {_startCity}\n" +
+                        $"Место прибытия поезда: {_endCity}\n" +
+                        $"Количество вагонов в поезде:{_numberWagon}\n" +
                         $"Количество проданных Белетов:{_numberTicketsSold}\n");
 
             if (_isReadyForDeparture == true)
@@ -123,10 +108,15 @@ namespace Homework_number_44
         {
             if (_isReadyForDeparture == true)
             {
-                _train = new Train();
+                Train train = new Train(_startCity,_endCity,_numberWagon);
 
                 _isReadyForDeparture = false;
                 _numberTicketsSold = 0;
+                _numberWagon = 0;
+                _startCity = "";
+                _endCity = "";
+
+                train = null;
 
                 ShowMessage("Поезд успешно отправлен!", ConsoleColor.Magenta);
             }
@@ -139,12 +129,10 @@ namespace Homework_number_44
         private void CreateDestination()
         {
             ShowMessage("Укажите с какого города поезд должен отправится");
-            string startCity = Console.ReadLine();
+            _startCity = Console.ReadLine();
 
             ShowMessage("Укажите город в который должен прибыть поезд");
-            string endCity = Console.ReadLine();
-
-            _train.SetDestination(startCity, endCity);
+            _endCity = Console.ReadLine();
         }
 
         private int GetNumberTicketsSold()
@@ -159,24 +147,8 @@ namespace Homework_number_44
 
         private void FormWagon(int passengerCount)
         {
-            const int littleWagonCapacity = 10;
-            const int defaultWagonCapacity = 30;
-
-            int numberWagon = (int)Math.Ceiling((double)passengerCount / defaultWagonCapacity);
-
-            for (int i = 0; i < numberWagon; i++)
-            {
-                if (passengerCount > littleWagonCapacity)
-                {
-                    _train.AddWagons(new Wagon(defaultWagonCapacity));
-
-                    passengerCount -= defaultWagonCapacity;
-                }
-                else
-                {
-                    _train.AddWagons(new Wagon(littleWagonCapacity));
-                }
-            }
+            int wagonCapacity = 30;
+            _numberWagon = (int)Math.Ceiling((double)passengerCount / wagonCapacity);
         }
 
         private void ShowMessage(string text, ConsoleColor consoleColor = ConsoleColor.Blue)
