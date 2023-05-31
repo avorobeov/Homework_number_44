@@ -79,7 +79,7 @@ namespace Homework_number_44
 
             _numberTicketsSold = GetNumberTicketsSold();
 
-            FormWagon(_numberTicketsSold);
+            _numberWagon = GetQuantityWagons(_numberTicketsSold);
 
             _isReadyForDeparture = true;
         }
@@ -143,10 +143,11 @@ namespace Homework_number_44
             return random.Next(minNumberTicketsSold, maxNumberTicketsSold);
         }
 
-        private void FormWagon(int passengerCount)
+        private int GetQuantityWagons(int passengerCount)
         {
             int wagonCapacity = 30;
-            _numberWagon = (int)Math.Ceiling((double)passengerCount / wagonCapacity);
+
+            return (int)Math.Ceiling((double)passengerCount / wagonCapacity);
         }
 
         private void ShowMessage(string text, ConsoleColor consoleColor = ConsoleColor.Blue)
