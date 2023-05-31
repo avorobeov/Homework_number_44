@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Homework_number_44
 {
@@ -53,47 +55,46 @@ namespace Homework_number_44
 
     class Train
     {
-        public Train(string startCity, string endCity, int numberWagons)
+        public int QuantityWagons { get; private set; }
+        public string StartCity { get; private set; }
+        public string EndCity { get; private set; }
+
+        public void SetDestination(string startCity, string endCity)
         {
             StartCity = startCity;
             EndCity = endCity;
-            NumberWagons = numberWagons;
         }
 
-        public int NumberWagons { get; private set; }
-        public string StartCity { get; private set; }
-        public string EndCity { get; private set; }
+        public void SetWagons(int quantityWagons)
+        {
+            QuantityWagons = quantityWagons; 
+        }
     }
 
     class Station
     {
-        private Train _train;
+        private Train _train = new Train();
 
-        private bool _isReadyForDeparture;
         private int _numberTicketsSold;
-        private int _numberWagon;
-        private string _startCity;
-        private string _endCity;
+        private bool _isReadyForDeparture;
 
         public void PrepareTrainDispatch()
         {
             CreateDestination();
 
-            _numberTicketsSold = GetNumberTicketsSold();
+            _numberTicketsSold = GetQuantityTicketsSold();
 
-            _numberWagon = GetQuantityWagons(_numberTicketsSold);
+            FormWagon(_numberTicketsSold);
 
             _isReadyForDeparture = true;
-
-            _train = new Train(_startCity, _endCity, _numberWagon);
         }
 
         public void ShowInfo()
         {
             ShowMessage($"Досье\n" +
-                        $"Место отправки поезда: {_startCity}\n" +
-                        $"Место прибытия поезда: {_endCity}\n" +
-                        $"Количество вагонов в поезде:{_numberWagon}\n" +
+                        $"Место отправки поезда: {_train.StartCity}\n" +
+                        $"Место прибытия поезда: {_train.EndCity}\n" +
+                        $"Количество вагонов в поезде:{_train.QuantityWagons}\n" +
                         $"Количество проданных Белетов:{_numberTicketsSold}\n");
 
             if (_isReadyForDeparture == true)
@@ -110,13 +111,10 @@ namespace Homework_number_44
         {
             if (_isReadyForDeparture == true)
             {
+                _train = new Train();
+
                 _isReadyForDeparture = false;
                 _numberTicketsSold = 0;
-                _numberWagon = 0;
-                _startCity = "";
-                _endCity = "";
-
-                _train = null;
 
                 ShowMessage("Поезд успешно отправлен!", ConsoleColor.Magenta);
             }
@@ -129,13 +127,15 @@ namespace Homework_number_44
         private void CreateDestination()
         {
             ShowMessage("Укажите с какого города поезд должен отправится");
-            _startCity = Console.ReadLine();
+            string startCity = Console.ReadLine();
 
             ShowMessage("Укажите город в который должен прибыть поезд");
-            _endCity = Console.ReadLine();
+            string endCity = Console.ReadLine();
+
+            _train.SetDestination(startCity, endCity);
         }
 
-        private int GetNumberTicketsSold()
+        private int GetQuantityTicketsSold()
         {
             Random random = new Random();
 
@@ -145,11 +145,13 @@ namespace Homework_number_44
             return random.Next(minNumberTicketsSold, maxNumberTicketsSold);
         }
 
-        private int GetQuantityWagons(int passengerCount)
+        private void FormWagon(int passengerCount)
         {
             int wagonCapacity = 30;
 
-            return (int)Math.Ceiling((double)passengerCount / wagonCapacity);
+            int numberWagon = (int)Math.Ceiling((double)passengerCount / wagonCapacity);
+
+           _train.SetWagons(numberWagon);
         }
 
         private void ShowMessage(string text, ConsoleColor consoleColor = ConsoleColor.Blue)
